@@ -1,4 +1,4 @@
-const { query, validationResult, body } = require('express-validator')
+const { query, validationResult, body, param } = require('express-validator')
 
 function checker(req, res, next) {
   const errors = validationResult(req)
@@ -56,6 +56,29 @@ module.exports = {
       }
       return true
     }),
+    checker
+  ],
+  listAllMasksInOnePharmacy: [
+    param("pharmacyId").notEmpty().withMessage("`phramacyId` must be provided")
+      .isInt().withMessage("`pharmacyId` must be an integer"),
+    query("sortByName").optional()
+      .isInt({ min: 0, max: 1 }).withMessage("`sortByName` must be 0 or 1"),
+    query("sortByPrice").optional()
+      .isInt({ min: 0, max: 1 }).withMessage("`sortByPrice` must be 0 or 1"),
+    checker
+  ],
+  upsertMasksForOnePharmacy: [
+    param("pharmacyId").notEmpty().withMessage("`phramacyId` must be provided")
+      .isInt().withMessage("`pharmacyId` must be an integer"),
+    body("items").isArray({ min: 1, max: 100000 }).withMessage("`items` must be an array with length between 1 and 100000"),
+    body("items.*.id").optional()
+      .isInt().withMessage("`items.*.id` must be an integer"),
+    body("items.*.name").notEmpty().withMessage("`items.*.name` must be provided")
+      .isString().withMessage("`items.*.name` must be a string"),
+    body("items.*.price").notEmpty().withMessage("`items.*.price` must be provided")
+      .isFloat({ min: 0.0, max: 100000.0 }).withMessage("`item.*.price` must be a float within 0.0 ~ 100000.0"),
+    body("items.*.stockQuantity").notEmpty().withMessage("`items.*.stockQuantity` must be provided")
+      .isInt({ min: 0, max: 100000 }).withMessage("`items.*.stockQuantity` must be an integer within 0 ~ 100000"),
     checker
   ]
 }

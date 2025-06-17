@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const { listAllPharmacies, listAllMasksInAllPharmacies } = require("../middlewares/validation")
+const { listAllPharmacies, listAllMasksInAllPharmacies, listAllMasksInOnePharmacy, upsertMasksForOnePharmacy } = require("../middlewares/validation")
 const pharmacyController = require("../controllers/pharmacy")
 
 router.get("/",
@@ -10,6 +10,16 @@ router.get("/",
 router.post("/filtered-by-mask-data",
   ...listAllMasksInAllPharmacies,
   pharmacyController.listAllMasksInAllPharmacies
+)
+
+router.get("/:pharmacyId/masks",
+  ...listAllMasksInOnePharmacy,
+  pharmacyController.listAllMasksInOnePharmacy
+)
+
+router.put("/:pharmacyId/masks/batch",
+  ...upsertMasksForOnePharmacy,
+  pharmacyController.upsertMasksForOnePharmacy
 )
 
 module.exports = router
