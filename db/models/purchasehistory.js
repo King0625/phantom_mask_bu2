@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     maskName: DataTypes.STRING,
     pharmacyName: DataTypes.STRING,
     transactionAmount: DataTypes.FLOAT,
-    transactionQuantity: DataTypes.INT,
-    transactionDatetime: DataTypes.Date
+    transactionQuantity: DataTypes.INTEGER,
+    transactionDatetime: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'PurchaseHistory',

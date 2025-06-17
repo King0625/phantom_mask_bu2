@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Pharmacy.init({
     name: DataTypes.STRING,
-    cashBalance: DataTypes.Float
+    cashBalance: DataTypes.FLOAT
   }, {
     sequelize,
     modelName: 'Pharmacy',

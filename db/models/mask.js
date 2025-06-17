@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Mask.init({
     name: DataTypes.STRING,
-    price: DataTypes.Float,
+    price: DataTypes.FLOAT,
     stockQuantity: DataTypes.INTEGER
   }, {
     sequelize,
