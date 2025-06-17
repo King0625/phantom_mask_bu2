@@ -1,4 +1,4 @@
-const { query, validationResult, oneOf } = require('express-validator')
+const { query, validationResult, body } = require('express-validator')
 
 function checker(req, res, next) {
   const errors = validationResult(req)
@@ -17,27 +17,42 @@ module.exports = {
     checker
   ],
   listAllMasksInAllPharmacies: [
-    oneOf([
-      query("above").notEmpty(),
-      query("below").notEmpty()
-    ], {
-      message: "At least `above` or `below` should be provided"
-    }),
-    query("above").optional()
-      .isFloat({ min: 0.0, max: 100000.0 }).withMessage("`above` must be a float within 0.0 ~ 100000.0").toFloat(),
-    query("below").optional()
-      .isFloat({ min: 0.0, max: 100000.0 }).withMessage("`below` must be a float within 0.0 ~ 100000.0").toFloat(),
-    query("above").custom((above, { req }) => {
+    body("count")
+      .notEmpty().withMessage("`count` should be provided")
+      .isInt({ min: 0, max: 1000000 }).withMessage("`count` must be an integer within 0 ~ 1000000").toInt(),
+    body("priceAbove").notEmpty().withMessage("`priceAbove` must be provided")
+      .isFloat({ min: 0.0, max: 100000.0 }).withMessage("`priceAbove` must be a float within 0.0 ~ 100000.0").toFloat(),
+    body("priceBelow").notEmpty().withMessage("`priceBelow` must be provided")
+      .isFloat({ min: 0.0, max: 100000.0 }).withMessage("`priceBelow` must be a float within 0.0 ~ 100000.0").toFloat(),
+    body("countOption").notEmpty().withMessage("`countOption` should be provided")
+      .isInt({ min: 1, max: 3 }).withMessage("`countOption` must be an integer within 1 ~ 3"),
+    body("threshold").optional()
+      .isInt({ min: 0, max: 1000000 }).withMessage("`threshold must be an integer within 0 ~ 1000000`").toInt()
+      .custom((threshold, { req }) => {
+        const { count } = req.body
+        if (count - threshold < 0 || count + threshold > 1000000) {
+          throw new Error("(`count` - `threshold`) shouldn't be under 0 or (`count` + `threshold`) shouldn't be over 1000000")
+        }
+        return true
+      }),
+    body("above").custom((above, { req }) => {
       below = req.query.below
-      if (below && below < above) {
+      if (below < above) {
         throw new Error("`above` should be lesser than `below`")
       }
       return true
     }),
-    query("below").custom((below, { req }) => {
+    body("below").custom((below, { req }) => {
       above = req.query.above
-      if (above && below < above) {
+      if (below < above) {
         throw new Error("`below` must be greater than `above")
+      }
+      return true
+    }),
+    body("countOption").custom((countOption, { req }) => {
+      let { threshold } = req.body
+      if (countOption == 3 && threshold == undefined) {
+        throw new Error("`threshold` should be provided when `countOption` is 3")
       }
       return true
     }),

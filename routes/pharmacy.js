@@ -7,7 +7,7 @@ router.get("/",
   pharmacyController.listAllPharmacies
 )
 
-router.get("/masks",
+router.post("/masks",
   ...listAllMasksInAllPharmacies,
   pharmacyController.listAllMasksInAllPharmacies
 )
