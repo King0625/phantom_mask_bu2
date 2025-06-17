@@ -29,8 +29,8 @@ module.exports = {
     body("threshold").optional()
       .isInt({ min: 0, max: 1000000 }).withMessage("`threshold must be an integer within 0 ~ 1000000`").toInt()
       .custom((threshold, { req }) => {
-        const { count } = req.body
-        if (count - threshold < 0 || count + threshold > 1000000) {
+        const { count, countOption } = req.body
+        if (countOption == 3 && (count - threshold < 0 || count + threshold > 1000000)) {
           throw new Error("(`count` - `threshold`) shouldn't be under 0 or (`count` + `threshold`) shouldn't be over 1000000")
         }
         return true
