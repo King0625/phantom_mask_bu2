@@ -1,6 +1,6 @@
 const http = require("http")
 const process = require("process")
-const app = require("express")
+const app = require("express")()
 const bodyParser = require("body-parser")
 const logger = require("morgan")
 const cors = require("cors")
