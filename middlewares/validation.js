@@ -1,4 +1,5 @@
 const { query, validationResult, body, param } = require('express-validator')
+const dayjs = require("dayjs")
 
 function checker(req, res, next) {
   const errors = validationResult(req)
@@ -88,6 +89,46 @@ module.exports = {
       .isInt({ min: 0, max: 100000 }).withMessage("`quantity` must be an integer within 0 ~ 100000"),
     body("isIncrease").notEmpty().withMessage("`isIncrease` must be provided")
       .isInt({ min: 0, max: 1 }).withMessage("`isIncrease must be 0 or 1`"),
+    checker
+  ],
+  showTheTopUsersWithinDatetime: [
+    query("limit").notEmpty().withMessage("`limit` should be provided")
+      .isInt({ min: 1, max: 100000 }).withMessage("`limit` must be an integer within 1 and 100000"),
+    query("from").notEmpty().withMessage("`from` should be provided")
+      .custom(from => {
+        if (!dayjs(from, 'YYYY-MM-DD', true).isValid()) {
+          throw new Error('`from` must be in YYYY-MM-DD format')
+        }
+        return true
+      }),
+    query("to").notEmpty().withMessage("`to` should be provided")
+      .custom(to => {
+        if (!dayjs(to, 'YYYY-MM-DD', true).isValid()) {
+          throw new Error('`to` must be in YYYY-MM-DD format')
+        }
+        return true
+      }),
+    query("from").custom((from, { req }) => {
+      const { to } = req.query
+      if (Date.parse(from) > Date.parse(to)) {
+        throw new Error("`from` should be earlier than `to`")
+      }
+      return true
+    }),
+    checker
+  ],
+  userPurchaseAtOnce: [
+    body("username").notEmpty().withMessage("`username` must be provided")
+      .isString().withMessage("`username` must be a string"),
+    body("items").isArray({ min: 1, max: 100000 }).withMessage("`items` must be an array with length between 1 and 100000"),
+    body("items.*.pharmacyName").notEmpty().withMessage("`items.*.pharmacyName` should not be empty")
+      .isString().withMessage("`items.*.pharmacyName` should be a string"),
+    body("items.*.maskName").notEmpty().withMessage("`items.*.maskName` should not be empty")
+      .isString().withMessage("`items.*.maskName` should be a string"),
+    body("items.*.transactionAmount").notEmpty().withMessage("`items.*.transactionAmount` should not be empty")
+      .isFloat({ min: 0.0, max: 100000.0 }).withMessage("`items.*.transactionAmount` should be a float within 0.0 ~ 100000.0"),
+    body("items.*.transactionQuantity").notEmpty().withMessage("`items.*.transactionQuantity` should not be empty")
+      .isInt({ min: 1, max: 100000 }).withMessage("`items.*.transactionQuantity` should be an integer within 1 ~ 100000"),
     checker
   ]
 }
