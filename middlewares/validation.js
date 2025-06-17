@@ -35,17 +35,17 @@ module.exports = {
         }
         return true
       }),
-    body("above").custom((above, { req }) => {
-      below = req.query.below
-      if (below < above) {
-        throw new Error("`above` should be lesser than `below`")
+    body("priceAbove").custom((priceAbove, { req }) => {
+      priceBelow = req.body.priceBelow
+      if (priceBelow < priceAbove) {
+        throw new Error("`priceAbove` should be lesser than `priceBelow`")
       }
       return true
     }),
-    body("below").custom((below, { req }) => {
-      above = req.query.above
-      if (below < above) {
-        throw new Error("`below` must be greater than `above")
+    body("priceBelow").custom((priceBelow, { req }) => {
+      priceAbove = req.body.priceAbove
+      if (priceBelow < priceAbove) {
+        throw new Error("`priceBelow` must be greater than `priceAbove")
       }
       return true
     }),
