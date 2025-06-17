@@ -1,5 +1,5 @@
 const { Op } = require("sequelize")
-const { Pharmacy, OpenHour, sequelize } = require("../db/models")
+const { Pharmacy, OpenHour, Mask, sequelize } = require("../db/models")
 
 module.exports = {
   listAllPharmacies: async (req, res) => {
@@ -31,6 +31,45 @@ module.exports = {
       ]
     })
 
+    res.status(200).json({
+      message: "success",
+      data: pharmacies
+    })
+  },
+  listAllMasksInAllPharmacies: async (req, res) => {
+    const { count, priceAbove, priceBelow, countOption, threshold } = req.body
+    let whereClause = {}
+    switch (countOption) {
+      case 1:
+        whereClause.stockQuantity = {
+          [Op.gte]: count
+        }
+        break
+      case 2:
+        whereClause.stockQuantity = {
+          [Op.lte]: count
+        }
+        break
+      case 3:
+        const left = count - threshold
+        const right = count + threshold
+        whereClause.stockQuantity = {
+          [Op.between]: [left, right]
+        }
+    }
+
+    const pharmacies = await Pharmacy.findAll({
+      include: {
+        model: Mask,
+        where: {
+          price: {
+            [Op.between]: [priceAbove, priceBelow]
+          },
+          ...whereClause
+        },
+        required: true
+      }
+    })
     res.status(200).json({
       message: "success",
       data: pharmacies
