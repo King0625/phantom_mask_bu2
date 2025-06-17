@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   PurchaseHistory.init({
+    userId: DataTypes.INTEGER,
     maskName: DataTypes.STRING,
     pharmacyName: DataTypes.STRING,
     transactionAmount: DataTypes.FLOAT,

@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   OpenHour.init({
+    pharmacyId: DataTypes.INTEGER,
     day: DataTypes.INTEGER,
     openAt: DataTypes.INTEGER,
     closedAt: DataTypes.INTEGER

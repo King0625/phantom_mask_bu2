@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Mask.init({
+    pharmacyId: DataTypes.INTEGER,
     name: DataTypes.STRING,
     price: DataTypes.FLOAT,
     stockQuantity: DataTypes.INTEGER
