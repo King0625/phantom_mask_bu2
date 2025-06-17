@@ -11,11 +11,9 @@ function checker(req, res, next) {
 module.exports = {
   listAllPharmacies: [
     query("time").optional()
-      .isInt().withMessage("`time` must be an integer!")
-      .isIn([0, 1440]).withMessage("`time` must be within 0 ~ 1440(minutes) "),
+      .isInt({ min: 0, max: 1440 }).withMessage("`time` must be an integer within 0 ~ 1440(minutes)!"),
     query("day").optional()
-      .isInt().withMessage("`day` must be an integer")
-      .isIn([0, 6]).withMessage("`day` must be within 0 ~ 6 (Sun ~ Sat)"),
+      .isInt({ min: 0, max: 6 }).withMessage("`day` must be an integer within 0 ~ 6 (Sun ~ Sat) !"),
     checker
   ],
   listAllMasksInAllPharmacies: [
