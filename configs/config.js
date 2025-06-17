@@ -5,6 +5,9 @@ module.exports = {
     database: process.env.MYSQL_DEV_DATABASE,
     host: process.env.MYSQL_HOST,
     dialect: "mysql",
+    define: {
+      timestamps: false
+    },
     logging: false,
   },
   test: {
@@ -13,6 +16,9 @@ module.exports = {
     database: process.env.MYSQL_TEST_DATABASE,
     host: process.env.MYSQL_HOST,
     dialect: "mariadb",
+    define: {
+      timestamps: false
+    }
   },
   production: {
     username: process.env.MYSQL_USER,
@@ -21,5 +27,8 @@ module.exports = {
     host: process.env.MYSQL_HOST,
     dialect: "mariadb",
     logging: false,
+    define: {
+      timestamps: false
+    },
   }
 }
