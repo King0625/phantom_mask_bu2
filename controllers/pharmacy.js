@@ -14,13 +14,14 @@ module.exports = {
       whereClause.push(`\`closedAt\` >= ${time}`)
     }
 
+    let whereSql = whereClause.length == 0 ? "" : `WHERE ${whereClause.join(" AND ")}`
     const pharmacies = await Pharmacy.findAll({
       where: {
         id: {
           [Op.in]: sequelize.literal(`(
             SELECT DISTINCT \`pharmacyId\`
             FROM \`OpenHours\`
-            WHERE ${whereClause.join(" AND ")}
+            ${whereSql}
           )`)
         }
       },
