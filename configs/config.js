@@ -15,7 +15,7 @@ module.exports = {
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_TEST_DATABASE,
     host: process.env.MYSQL_HOST,
-    dialect: "mariadb",
+    dialect: "mysql",
     define: {
       timestamps: false
     }
@@ -25,7 +25,7 @@ module.exports = {
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_PROD_DATABASE,
     host: process.env.MYSQL_HOST,
-    dialect: "mariadb",
+    dialect: "mysql",
     logging: false,
     define: {
       timestamps: false

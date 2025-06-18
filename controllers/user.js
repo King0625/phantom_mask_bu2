@@ -6,7 +6,6 @@ const timezone = require('dayjs/plugin/timezone')
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
-dayjs.tz.setDefault("Asia/Taipei")
 
 module.exports = {
   showTheTopUsersWithinDatetime: async (req, res) => {
@@ -53,7 +52,7 @@ module.exports = {
     const currentDate = {
       datetime: dayjs(),
       day: dayjs().day(),
-      minutes: dayjs().hour() * 60 + dayjs().minute()
+      minutes: dayjs().tz('Asia/Taipei').hour() * 60 + dayjs().minute()
     }
     const t = await sequelize.transaction()
     try {
