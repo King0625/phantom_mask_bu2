@@ -125,8 +125,6 @@ module.exports = {
       .isInt().withMessage("`items.*.pharmacyId` should be an integer"),
     body("items.*.maskId").notEmpty().withMessage("`items.*.maskId` should not be empty")
       .isInt().withMessage("`items.*.maskId` should be an integer"),
-    body("items.*.transactionAmount").notEmpty().withMessage("`items.*.transactionAmount` should not be empty")
-      .isFloat({ min: 0.0, max: 100000.0 }).withMessage("`items.*.transactionAmount` should be a float within 0.0 ~ 100000.0"),
     body("items.*.transactionQuantity").notEmpty().withMessage("`items.*.transactionQuantity` should not be empty")
       .isInt({ min: 1, max: 100000 }).withMessage("`items.*.transactionQuantity` should be an integer within 1 ~ 100000"),
     checker
