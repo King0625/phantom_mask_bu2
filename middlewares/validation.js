@@ -128,5 +128,12 @@ module.exports = {
     body("items.*.transactionQuantity").notEmpty().withMessage("`items.*.transactionQuantity` should not be empty")
       .isInt({ min: 1, max: 100000 }).withMessage("`items.*.transactionQuantity` should be an integer within 1 ~ 100000"),
     checker
+  ],
+  searchForPharmaciesOrMasks: [
+    query("q").notEmpty().withMessage("`q` must be provided")
+      .isString().withMessage("`q` must be a string"),
+    query("type").notEmpty().withMessage("`type` must be provided")
+      .isIn(["mask", "pharmacy", "all"]).withMessage("`type` should be 'mask', 'pharmacy', or 'all'"),
+    checker
   ]
 }
