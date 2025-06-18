@@ -7,7 +7,7 @@ router.get("/top-purchased",
   userController.showTheTopUsersWithinDatetime
 )
 
-router.post("/purchase",
+router.post("/purchase-batch",
   ...userPurchaseAtOnce,
   userController.userPurchaseAtOnce
 )
