@@ -6,6 +6,7 @@ const logger = require("morgan")
 const cors = require("cors")
 
 const pharmacyRouter = require("./routes/pharmacy")
+const maskRouter = require("./routes/mask")
 
 const port = process.env.PORT | 11451
 
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(logger("[:date[iso]] :method :url :status :res[content-length] - :response-time ms"))
 
 app.use("/pharmacies", pharmacyRouter)
+app.use("/masks", maskRouter)
 
 const server = http.createServer(app)
 server.listen(port, () => {

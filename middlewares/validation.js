@@ -80,5 +80,14 @@ module.exports = {
     body("items.*.stockQuantity").notEmpty().withMessage("`items.*.stockQuantity` must be provided")
       .isInt({ min: 0, max: 100000 }).withMessage("`items.*.stockQuantity` must be an integer within 0 ~ 100000"),
     checker
+  ],
+  updateExistingMask: [
+    param("maskId").notEmpty().withMessage("`maskId` must be provided")
+      .isInt().withMessage("`maskId` must be an integer"),
+    body("quantity").notEmpty().withMessage("`quantity` must be provided")
+      .isInt({ min: 0, max: 100000 }).withMessage("`quantity` must be an integer within 0 ~ 100000"),
+    body("isIncrease").notEmpty().withMessage("`isIncrease` must be provided")
+      .isInt({ min: 0, max: 1 }).withMessage("`isIncrease must be 0 or 1`"),
+    checker
   ]
 }
