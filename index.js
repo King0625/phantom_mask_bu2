@@ -7,6 +7,7 @@ const cors = require("cors")
 
 const pharmacyRouter = require("./routes/pharmacy")
 const maskRouter = require("./routes/mask")
+const userRouter = require("./routes/user")
 
 const port = process.env.PORT | 11451
 
@@ -17,6 +18,7 @@ app.use(logger("[:date[iso]] :method :url :status :res[content-length] - :respon
 
 app.use("/pharmacies", pharmacyRouter)
 app.use("/masks", maskRouter)
+app.use("/users", userRouter)
 
 const server = http.createServer(app)
 server.listen(port, () => {
