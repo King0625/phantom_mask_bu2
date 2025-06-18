@@ -4,6 +4,8 @@
   "description": "You are tasked with building a backend service and a database for a pharmacy platform, using only RESTful APIs for communication.",
   "main": "index.js",
   "scripts": {
+    "insertData": "node ./db/initData.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
